@@ -1,0 +1,9 @@
+(in-microtheory TheFamilyJewelsMt)
+
+(preconditionForMethod
+ (and
+      (PersonKillsPerson player LennyKravitz)
+      )
+ (methodForAction
+    (killed LennyKravitz "Lenny is dead… So, the Heiress says ‘You have killed my one and only true love.. And now I will kill you’. The heiress stabs you repeatedly. You die. Game over. The end.")
+  ))
