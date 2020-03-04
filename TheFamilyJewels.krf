@@ -1,0 +1,384 @@
+(in-microtheory TheFamilyJewelsMt)
+;;; Horn clauses
+
+;;;People Information
+(isa heiress Person)
+(fullName heiress "Penelope Gorbadoink")
+(locationState heiress cave)
+
+(isa player Person)
+(locationState player detectiveOffice)
+
+(isa heiressFather Person)
+(locationState heiressFather heiressMansion)
+
+(isa shoeStoreSalesman Person)
+(locationState shoeStoreSalesman shoeStore)
+
+(isa bartender Person)
+(locationState bartender bar)
+
+(isa LennyKravitz Person)
+(locationState LennyKravitz bar)
+
+(isa investigateItemText Relation) 
+(arity investigateItemText 2) 
+(arg1Isa investigateItemText Item) 
+(arg2Isa investigateItemText String)
+
+;; Location entities
+(isa detectiveOffice Place)
+
+(isa shoeStore Place)
+
+;; Manion and the rooms in the mansion
+(isa heiressMansion Place)
+
+(isa kravitzHouse Place)
+
+(isa bar Place)
+
+(isa cave Place)
+
+;;Define a clue collection
+(genls Clue Idea)
+(isa Clue FirstOrderCollection)
+(comment Clue "a clue is a piece of evidence or information used in the detection of a crime or solving of a mystery. Clues can be nouns, or phrases.")
+
+;; define a list of clue entities for all locations
+
+;;;;;;;;;;;;;;;;;;
+;;;;; OFFICE ;;;;;
+;;;;;;;;;;;;;;;;;;
+
+;; a stranger walks in the office
+
+(isa talkTo Relation)
+(arity talkTo 2)
+(arg1Isa talkTo Person)
+(arg2Isa talkTo String)
+
+;; talk to stranger or ignore stranger
+(<== (talkTo ?person ?reply)
+	(investigateItemText ?person ?reply))
+
+
+
+(investigateItemText stranger "Do you wanna make a million dollars? My heiress daughter was kidnapped")
+
+;;query
+;; if the player chooses to talk to the stranger, they will be offered a job
+;; add this fact to the kb
+;; Comment: "If you find my lost daughter, I will pay you $1,000,000."
+
+(isa ignorePerson Relation)
+(arity ignorePerson 2)
+(arg1Isa ignorePerson Person)
+(arg2Isa ignorePerson String)
+
+(<== (ignorePerson ?person ?reply)
+	(investigateItemText ?person ?reply))
+
+(investigateItemText stranger "you lost the game")
+
+;; if the player chooses to ignore the stranger, the stranger leaves and the game ends
+;; add this fact to the kb
+;; (ignorePerson player stranger)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; HEIRESS MANSION ;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Basic story is that the kidnapper, Lenny Kravitz, left a muddy footprint near the back door of the house.
+;; There is a front door, a very large main space, a staircase, to the left (which is blocked), a kitchen to
+;; the left, a sunroom in the back, and a bathroom to the right (directions will not matter, there will be 
+;; a choice. 
+
+;; The sunroom in the back has the footprint in it. 
+
+;; at the mansion
+
+;; when at the mansion, this is what happens 
+
+(investigateItemText heiressMansion "The Heiress's mansion is large and luxurious. You are standing at the base of the living room; the living room has a fireplace, a large seating area, a large dining room table, a staircase leading upstairs, and an open doorway to the sunroom in the back")
+
+;; definition of all of the things that can be investigated from the sentence above 
+
+;; for the fireplace 
+(isa fireplace Item)
+(investigateItemText fireplace "The fireplace has a large mantle clock on the top of it. There are charred remains of wood in the inner hearth...ash lines the firebrick...") 
+(isa clock Item) 
+(investigateItemText clock "The clock is not ticking; it is out of power. I am not sure how long...")
+
+
+
+
+;; for the seating area 
+(isa longCouch Item)
+(investigateItemText longCouch "The couch is large and white...it seems almost uncomfortable to sit on. Around the couch is a large coffee table, and the fireplace...") 
+(isa coffeeTable Item) 
+(investigateItemText coffeeTable "The coffee table is made almost completely from glass. There are some good housekeeping magazines, as well as a copy of GQ Britain...") 
+
+;; for the dining room 
+(isa diningTable Item) 
+(investigateItemText diningTable "The dining table can seat fourteen people. At the center of the table is a bouquet of flowers...") 
+(isa bouquet Item) 
+(investigateItemText bouquet "The bouquet is large, however slightly wilted...they just get enough sun from the windows to the side that look into the sunroom...") 
+
+;; for the staircase 
+(isa staircase Item) 
+(investigateItemText staircase "The staircase is massive, and leads upstairs. I better check out the downstairs main space before I venture upstairs...")
+
+
+;; for the sunroom, and the clue being shown to them 
+(isa sunroomDoor Item) 
+(investigateItemText sunroomDoor "A door that leads from the main space to the sunroom in the back...strange, there are muddy footprints on the ground from the outside into the sunroom. They end at the sunroom door where I am located...") 
+(isa footprints Clue) 
+(investigateItemText footprints "These footprints do not look like they would belong to the Heiress. What is even more strange is that they come from outside, and do not end at the mat where the shoes go. My guess is that these not only don't belong to the Heiress, but they belong to someone who does not live here...I need to find out what kind of shoes these are...") 
+;;;;;;;;;;;;;;;;;;;;;
+;;;; Shoe Store ;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+
+
+
+(investigateItemText shoeStore "You see a shoe salesman")
+(investigateItemText salesman "Yeah I sold those shoes to a guy named Lenny Kravitz")
+
+;;; Arrive
+(isa lookAround Relation)
+(arity lookAround 2)
+(arg1Isa lookAround Person)
+(arg2Isa lookAround String)
+
+(<== (lookAround ?player ?reply)
+     (locationState player ?location)    
+     (investigateItemText ?location ?reply)  
+)
+
+
+;; (lookAround player ?reply) ;;; gets information about what they can do
+
+
+;; (talkTo salesman ?reply) ;;; asks about the shoe
+
+
+;;;;;;;;;;;;;;;;;;;;;;
+;;; Lenny's house ;;;;
+;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; (locationState player LennyKravitzHouse)
+(investigateItemText kravitzHouse "Just an ordinary looking house with a large front door, a garage, a few trashcans out on the curb, and some pretty flowers near the door")
+
+;; (lookAround player ?reply)
+
+(isa knockOnDoor Relation)
+(arity knockOnDoor 2)
+(arg1Isa knockOnDoor Place)
+(arg2Isa knockOnDoor String)
+(<== (knockOnDoor ?location ?reply)
+    (investigateItemText ?location ?reply))
+
+;; (knockOnDoor LennyKravitzHouse ?reply)
+(investigateItemText LennyKravitzHouse "No one answered the door")
+;;; Reply: "No one answered the door"
+
+(isa investigate Relation) 
+(arity investigate 2) 
+(arg1Isa investigate Thing) 
+(arg2Isa investigate String) 
+
+(<== (investigate ?item ?reply) 
+    (investigateItemText ?item ?reply)) 
+
+
+;; (investigate frontDoor ?reply)
+(isa frontDoor Item)
+(investigateItemText frontDoor "Looks kinda just like any normal front door to me...")
+;;; Reply: "Looks kinda just like any normal front door to me..."
+;; (investigate garage ?reply)
+(isa garage Item)
+(investigateItemText garage "Well the garage door is closed and I don't really want to break into it... so not a lot to be gained from it")
+;;; Reply: "Well the garage door is closed and I don't really want to break into it... so not a lot to be gained from it"
+;; (investigate prettyFlowers ?reply)
+(isa prettyFlowers Item)
+(investigateItemText prettyFlowers "Some nice lilies; I'm kind of surprised they are growing so well this time of year...")
+;;; Reply: "Some nice lilies; I'm kind of surprised they are growing so well this time of year..."
+;; (investigate trashCans ?reply)
+(isa trashCans Item)
+(investigateItemText trashCans "Hmmm, there is a reciept here blowing around... It's for the local bar... maybe I should check it out...")
+;;; Reply: "Hmmm, there is a reciept here blowing around... It's for the local bar... maybe I should check it out..."
+
+
+;;;;;;;;;;;;;;;;
+;;;;; BAR ;;;;;;
+;;;;;;;;;;;;;;;;
+
+;; (locationState player bar)
+
+;;Enter the bar. The only people inside are barkeep and a gruff-looking customer
+;;if player chooses to talk to bar keeper (maybe they can order a drink)
+; (talkTo bartender ?reply)
+
+(investigateItemText bartender "do you wanna order a drink?")
+(investigateItemText LennyKravitz "hey leave me alone man, I’m drinking here")
+
+
+(<== (orderDrink ?purchaser ?seller)
+     (friends ?purchaser ?seller))
+
+(isa orderDrink Relation)
+(arity orderDrink 2)
+(arg1Isa orderDrink Person)
+(arg2Isa orderDrink Person)
+
+;;order drink from bartender
+;; (orderDrink player bartender)
+
+;;Positive Response, Neutral Response, Negative Response
+(isa positiveResponse Relation) 
+(arity positiveResponse 2) 
+(arg1Isa positiveResponse Person) 
+(arg2Isa postiveResponse String)
+
+(isa neutralResponse Relation) 
+(arity neutralResponse 2) 
+(arg1Isa neutralResponse Person) 
+(arg2Isa neutralResponse String)
+
+(isa negativeResponse Relation) 
+(arity negativeResponse 2) 
+(arg1Isa negativeResponse Person) 
+(arg2Isa negativeResponse String)
+
+(isa interrogate Relation)
+(arity interrogate 3)
+(arg1Isa interrogate Person)
+(arg2Isa interrogate PolitenessOfSpeech)
+(arg3Isa interrogate String)
+
+
+;;interrogate friendly for bartender
+(<== (interrogate ?person ?qualityOfInterrogation ?reply)
+     (equals ?qualityOfInterrogation PoliteSpeech)
+     (equals ?person bartender)
+     (orderDrink player ?person)
+     (positiveResponse ?person ?reply)
+)
+;;bartender neutral interrogation
+(<== (interrogate ?person ?qualityOfInterrogation ?reply)
+     (equals ?qualityOfInterrogation PoliteSpeech)
+     (equals ?person bartender)
+     (neutralResponse ?person ?reply)
+)
+;;; Interrogate objectionable for bartender
+(<== (interrogate ?person ?qualityOfInterrogation ?reply)
+     (equals ?qualityOfInterrogation ObjectionableSpeech)
+(equals ?person bartender)
+     (negativeResponse ?person ?reply)
+)
+;;Interrogate friendly for Lenny
+(<== (interrogate ?person ?qualityOfInterrogation ?reply)
+     (equals ?qualityOfInterrogation PoliteSpeech)
+     (equals ?person LennyKravitz)
+     (negativeResponse ?person ?reply)
+)
+
+
+;;; Interrogate objectionable for anyone
+(<== (interrogate ?person ?qualityOfInterrogation ?reply)
+     (equals ?qualityOfInterrogation ObjectionableSpeech)
+      (equals ?person LennyKravitz)
+     (positiveResponse ?person ?reply)
+)
+
+
+
+;;player interrogates bartender friendly 
+;; (interrogate bartender PoliteSpeech ?reply)
+
+;;if they bought a beer (aka you’re friends) and interrogates bartender 
+(positiveResponse bartender "You’re looking for a guy called Kravitz? Yeah, I know him...he’s a regular here...right over there!")
+
+;;if they haven’t bought a beer yet
+(neutralResponse bartender "What, you come into my establishment asking questions and you’re not even gonna buy a drink?")
+
+;; (interrogate bartender ObjectionableSpeech ?reply )
+(negativeResponse bartender "Hey, shut up, you! Get the hell out of here!")
+
+
+;;if player chooses to talk to lenny
+;; (talkTo player LennyKravitz)
+
+;;interrogate him using friendliness
+; (interrogate LennyKravitz PoliteSpeech)
+;; “listen bud..leave me alone”
+(negativeResponse LennyKravitz "listen bud..leave me alone")
+
+;;interrogate him using intimidation
+;; (interrogate LennyKravitz ObjectionableSpeech)
+;; “ok, ok I’ll tell you what I know!!”
+(positiveResponse LennyKravitz "ok, ok! I’ll tell you what I know!! The heiress is in the Cave. The FDA payed me off to kidnap here. They are sick are of those darned juuls hurting the teens. I’ll take you to the cave, just don’t hurt me!!")
+
+
+;;player goes to cave
+;; (locationState player Cave)
+
+;;;;; CAVE ;;;;;
+
+;; (locationState player Cave)
+
+;;if you want to investigate the cave
+
+;; (investigate Cave ?reply)
+(investigateItemText Cave "you see the heiress inside the cave")
+
+;; save the heiress or not
+(isa rescue Relation)
+(arity rescue 2)
+(arg1Isa rescue Person)
+(arg2Isa rescue Person)
+(comment rescue "a Relation that describes the relation when the first argument rescues the second argument; the second argument is now safe")
+
+;; if the player chooses to save the heiress, she is safe and the game ends
+;; add this fact to the kb
+;; (rescue player heiress)
+;;somehow reason to make her safe, using reasoning
+;; (safe heiress) -- TODO
+
+;; if the player chooses to ignore the heiress, the game ends
+;; add this fact to the kb
+;; (ignorePerson heiress ?reply)
+(investigateItemText heiress "you failed to save the heiress. You lose.")
+
+;; kill the perpetrator or not
+(isa PersonKillsPerson Relation)
+(<== (PersonKillsPerson ?person ?reply)
+	(killed ?person ?reply)
+)
+(arity PersonKillsPerson 2)
+(arg1Isa PersonKillsPerson Person)
+(arg2Isa PersonKillsPerson String)
+; the second argument is now dead
+(comment PersonKillsPerson "a Relation that describes the relation when the first argument kills the second argument")
+
+;; if the player chooses to kill the Lenny, you lose
+;; (PersonKillsPerson LennyKravitz ?reply)
+;; define killed
+(isa killed Relation)
+(arity killed 2)
+(arg1Isa killed Person)
+(arg2Isa killed String)
+
+(killed LennyKravitz "Lenny is dead… So, the Heiress says ‘You have killed my one and only true love.. And now I will kill you’. The heiress stabs you repeatedly. You die. Game over. The end.")
+
+;; somehow add reasoning that lenny is dead
+
+;; if the player chooses to ignore lenny, nothing happens
+;; (ignorePerson LennyKravitz ?reply)
+
+
+
+
