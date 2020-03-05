@@ -1,5 +1,4 @@
 (in-microtheory TheFamilyJewelsMt)
-;;; Horn clauses
 
 ;;;People Information
 (isa heiress Person)
@@ -26,12 +25,16 @@
 (arg1Isa investigateItemText Item) 
 (arg2Isa investigateItemText String)
 
+(isa lostGame Relation) 
+(arity lostGame 2) 
+(arg1Isa lostGame Person) 
+(arg2Isa lostGame String)
+
 ;; Location entities
 (isa detectiveOffice Place)
 
 (isa shoeStore Place)
 
-;; Manion and the rooms in the mansion
 (isa heiressMansion Place)
 
 (isa kravitzHouse Place)
@@ -39,13 +42,6 @@
 (isa bar Place)
 
 (isa cave Place)
-
-;;Define a clue collection
-(genls Clue Idea)
-(isa Clue FirstOrderCollection)
-(comment Clue "a clue is a piece of evidence or information used in the detection of a crime or solving of a mystery. Clues can be nouns, or phrases.")
-
-;; define a list of clue entities for all locations
 
 ;;;;;;;;;;;;;;;;;;
 ;;;;; OFFICE ;;;;;
@@ -63,13 +59,8 @@
 	(investigateItemText ?person ?reply))
 
 
+(investigateItemText stranger "Do you wanna make a million dollars? My daughter, the heiress to the Juul family fortune was kidnapped")
 
-(investigateItemText stranger "Do you wanna make a million dollars? My heiress daughter was kidnapped")
-
-;;query
-;; if the player chooses to talk to the stranger, they will be offered a job
-;; add this fact to the kb
-;; Comment: "If you find my lost daughter, I will pay you $1,000,000."
 
 (isa ignorePerson Relation)
 (arity ignorePerson 2)
@@ -77,13 +68,10 @@
 (arg2Isa ignorePerson String)
 
 (<== (ignorePerson ?person ?reply)
-	(investigateItemText ?person ?reply))
+    (equals ?person stranger)
+    (lostGame player ?reply))
 
-(investigateItemText stranger "you lost the game")
-
-;; if the player chooses to ignore the stranger, the stranger leaves and the game ends
-;; add this fact to the kb
-;; (ignorePerson player stranger)
+(lostGame player "You lost the game!")
 
 
 
@@ -98,9 +86,6 @@
 
 ;; The sunroom in the back has the footprint in it. 
 
-;; at the mansion
-
-;; when at the mansion, this is what happens 
 
 (investigateItemText heiressMansion "The Heiress's mansion is large and luxurious. You are standing at the base of the living room; the living room has a fireplace, a large seating area, a large dining room table, a staircase leading upstairs, and an open doorway to the sunroom in the back")
 
@@ -111,8 +96,6 @@
 (investigateItemText fireplace "The fireplace has a large mantle clock on the top of it. There are charred remains of wood in the inner hearth...ash lines the firebrick...") 
 (isa clock Item) 
 (investigateItemText clock "The clock is not ticking; it is out of power. I am not sure how long...")
-
-
 
 
 ;; for the seating area 
@@ -137,6 +120,8 @@
 (investigateItemText sunroomDoor "A door that leads from the main space to the sunroom in the back...strange, there are muddy footprints on the ground from the outside into the sunroom. They end at the sunroom door where I am located...") 
 (isa footprints Clue) 
 (investigateItemText footprints "These footprints do not look like they would belong to the Heiress. What is even more strange is that they come from outside, and do not end at the mat where the shoes go. My guess is that these not only don't belong to the Heiress, but they belong to someone who does not live here...I need to find out what kind of shoes these are...") 
+
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;;;; Shoe Store ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -158,21 +143,14 @@
 )
 
 
-;; (lookAround player ?reply) ;;; gets information about what they can do
-
-
-;; (talkTo salesman ?reply) ;;; asks about the shoe
-
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;; Lenny's house ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;
 
 
-;; (locationState player LennyKravitzHouse)
 (investigateItemText kravitzHouse "Just an ordinary looking house with a large front door, a garage, a few trashcans out on the curb, and some pretty flowers near the door")
 
-;; (lookAround player ?reply)
 
 (isa knockOnDoor Relation)
 (arity knockOnDoor 2)
@@ -183,7 +161,7 @@
 
 ;; (knockOnDoor LennyKravitzHouse ?reply)
 (investigateItemText LennyKravitzHouse "No one answered the door")
-;;; Reply: "No one answered the door"
+
 
 (isa investigate Relation) 
 (arity investigate 2) 
@@ -194,36 +172,30 @@
     (investigateItemText ?item ?reply)) 
 
 
-;; (investigate frontDoor ?reply)
 (isa frontDoor Item)
 (investigateItemText frontDoor "Looks kinda just like any normal front door to me...")
-;;; Reply: "Looks kinda just like any normal front door to me..."
-;; (investigate garage ?reply)
+
 (isa garage Item)
 (investigateItemText garage "Well the garage door is closed and I don't really want to break into it... so not a lot to be gained from it")
-;;; Reply: "Well the garage door is closed and I don't really want to break into it... so not a lot to be gained from it"
-;; (investigate prettyFlowers ?reply)
+
 (isa prettyFlowers Item)
 (investigateItemText prettyFlowers "Some nice lilies; I'm kind of surprised they are growing so well this time of year...")
-;;; Reply: "Some nice lilies; I'm kind of surprised they are growing so well this time of year..."
-;; (investigate trashCans ?reply)
+
 (isa trashCans Item)
 (investigateItemText trashCans "Hmmm, there is a reciept here blowing around... It's for the local bar... maybe I should check it out...")
-;;; Reply: "Hmmm, there is a reciept here blowing around... It's for the local bar... maybe I should check it out..."
+
 
 
 ;;;;;;;;;;;;;;;;
 ;;;;; BAR ;;;;;;
 ;;;;;;;;;;;;;;;;
 
-;; (locationState player bar)
 
-;;Enter the bar. The only people inside are barkeep and a gruff-looking customer
-;;if player chooses to talk to bar keeper (maybe they can order a drink)
-; (talkTo bartender ?reply)
-
+(investigateItemText bar "You walk into a dimly lit bar, a radio plays quietly. The only people inside are the bartender and a mysterious man in the corner.")
 (investigateItemText bartender "do you wanna order a drink?")
 (investigateItemText LennyKravitz "hey leave me alone man, I’m drinking here")
+(isa radio Item)
+(investigateItemText radio "The radio is currently playing some smooth jazz. You hangout for a bit listening...it reminds you of your wife...her favorite music was jazz. You take out your wallet and look at her picture wistfully. For a moment, the bar disappears and you are taken to another time.")
 
 
 (<== (orderDrink ?purchaser ?seller)
@@ -234,8 +206,6 @@
 (arg1Isa orderDrink Person)
 (arg2Isa orderDrink Person)
 
-;;order drink from bartender
-;; (orderDrink player bartender)
 
 ;;Positive Response, Neutral Response, Negative Response
 (isa positiveResponse Relation) 
@@ -276,7 +246,7 @@
 ;;; Interrogate objectionable for bartender
 (<== (interrogate ?person ?qualityOfInterrogation ?reply)
      (equals ?qualityOfInterrogation ObjectionableSpeech)
-(equals ?person bartender)
+     (equals ?person bartender)
      (negativeResponse ?person ?reply)
 )
 ;;Interrogate friendly for Lenny
@@ -287,17 +257,13 @@
 )
 
 
-;;; Interrogate objectionable for anyone
+;;; Interrogate objectionable for Lenny
 (<== (interrogate ?person ?qualityOfInterrogation ?reply)
      (equals ?qualityOfInterrogation ObjectionableSpeech)
-      (equals ?person LennyKravitz)
+     (equals ?person LennyKravitz)
      (positiveResponse ?person ?reply)
 )
 
-
-
-;;player interrogates bartender friendly 
-;; (interrogate bartender PoliteSpeech ?reply)
 
 ;;if they bought a beer (aka you’re friends) and interrogates bartender 
 (positiveResponse bartender "You’re looking for a guy called Kravitz? Yeah, I know him...he’s a regular here...right over there!")
@@ -309,30 +275,16 @@
 (negativeResponse bartender "Hey, shut up, you! Get the hell out of here!")
 
 
-;;if player chooses to talk to lenny
-;; (talkTo player LennyKravitz)
-
-;;interrogate him using friendliness
-; (interrogate LennyKravitz PoliteSpeech)
-;; “listen bud..leave me alone”
+;;interrogate Lenny using friendliness
 (negativeResponse LennyKravitz "listen bud..leave me alone")
 
 ;;interrogate him using intimidation
-;; (interrogate LennyKravitz ObjectionableSpeech)
-;; “ok, ok I’ll tell you what I know!!”
-(positiveResponse LennyKravitz "ok, ok! I’ll tell you what I know!! The heiress is in the Cave. The FDA payed me off to kidnap here. They are sick are of those darned juuls hurting the teens. I’ll take you to the cave, just don’t hurt me!!")
+(positiveResponse LennyKravitz "ok, ok! I’ll tell you what I know!! The heiress is in the Cave. The FDA payed me off to kidnap her. They are sick are of those darned juuls hurting the teens. I’ll take you to the cave, just don’t hurt me!! Enter the command (locationState player Cave) to go to the cave with me.")
 
 
-;;player goes to cave
-;; (locationState player Cave)
 
 ;;;;; CAVE ;;;;;
 
-;; (locationState player Cave)
-
-;;if you want to investigate the cave
-
-;; (investigate Cave ?reply)
 (investigateItemText Cave "you see the heiress inside the cave")
 
 ;; save the heiress or not
