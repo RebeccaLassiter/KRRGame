@@ -25,10 +25,6 @@
 (arg1Isa investigateItemText Item) 
 (arg2Isa investigateItemText String)
 
-(isa lostGame Relation) 
-(arity lostGame 2) 
-(arg1Isa lostGame Person) 
-(arg2Isa lostGame String)
 
 ;; Location entities
 (isa detectiveOffice Place)
@@ -43,10 +39,19 @@
 
 (isa cave Place)
 
+
+(isa lostGame Relation) 
+(arity lostGame 2)
+(arg1Isa lostGame Place) 
+(arg2Isa lostGame String)
+;;message you get when you lose the game in a given location
+(lostGame detectiveOffice "You dont want a million dollars? You lost the game!")
+(lostGame cave "How could you kill lenny like that!! You lost the game!")
+
 ;;;;;;;;;;;;;;;;;;
 ;;;;; OFFICE ;;;;;
 ;;;;;;;;;;;;;;;;;;
-
+(locationState player detectiveOffice)
 ;; a stranger walks in the office
 
 (isa talkTo Relation)
@@ -69,9 +74,10 @@
 
 (<== (ignorePerson ?person ?reply)
     (equals ?person stranger)
-    (lostGame player ?reply))
+    (locationState player detectiveOffice)
+    (lostGame detectiveOffice ?reply))
 
-(lostGame player "You lost the game!")
+
 
 
 
@@ -279,13 +285,13 @@
 (negativeResponse LennyKravitz "listen bud..leave me alone")
 
 ;;interrogate him using intimidation
-(positiveResponse LennyKravitz "ok, ok! I’ll tell you what I know!! The heiress is in the Cave. The FDA payed me off to kidnap her. They are sick are of those darned juuls hurting the teens. I’ll take you to the cave, just don’t hurt me!! Enter the command (locationState player Cave) to go to the cave with me.")
+(positiveResponse LennyKravitz "ok, ok! I’ll tell you what I know!! The heiress is in the cave. The FDA payed me off to kidnap her. They are sick are of those darned juuls hurting the teens. I’ll take you to the cave, just don’t hurt me!! Enter the command (locationState player cave) to go to the cave with me.")
 
 
 
 ;;;;; CAVE ;;;;;
 
-(investigateItemText Cave "you see the heiress inside the cave")
+(investigateItemText cave "you see the heiress inside the cave")
 
 ;; save the heiress or not
 (isa rescue Relation)
