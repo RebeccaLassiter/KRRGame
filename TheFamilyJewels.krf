@@ -294,8 +294,6 @@
      (positiveResponse ?person ?reply)
 )
 
-
-
 ;;player interrogates bartender friendly 
 ;; (interrogate bartender PoliteSpeech ?reply)
 
@@ -378,7 +376,3 @@
 
 ;; if the player chooses to ignore lenny, nothing happens
 ;; (ignorePerson LennyKravitz ?reply)
-
-
-
-
