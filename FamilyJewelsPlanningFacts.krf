@@ -7,3 +7,6 @@
 
 (isa killPerson ComplexActionPredicate)
 (arity killPerson 2)
+
+(isa updatePlayerKnowledge ComplexActionPredicate)
+(arity updatePlayerKnowledge 2)

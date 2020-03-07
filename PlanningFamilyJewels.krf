@@ -124,3 +124,26 @@
      )
 )
 
+(preconditionForMethod
+     (and
+          (ist-Information TheFamilyJewelsMt (investigate sunroomDoor ?reply))
+     )
+     (methodForAction
+          (updatePlayerKnowledge player heiressMansion)
+          (actionSequence 
+               (TheList
+                  (doAgentPlan
+                    (doTell
+                         (isa footprints Item)
+                    )
+                  )
+                  (doAgentPlan
+                    (doTell 
+                         (investigateItemtext footprints "whatever....")
+                    )
+                  )
+               )
+          )
+     )
+)
+
