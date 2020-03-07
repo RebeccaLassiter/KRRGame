@@ -8,6 +8,9 @@
 (isa player Person)
 (locationState player detectiveOffice)
 
+(isa stranger Person)
+(locationState stranger detectiveOffice)
+
 (isa heiressFather Person)
 (locationState heiressFather heiressMansion)
 
@@ -71,6 +74,7 @@
 ;;;;;;;;;;;;;;;;;;
 ;;;;; OFFICE ;;;;;
 ;;;;;;;;;;;;;;;;;;
+
 (locationState player detectiveOffice)
 ;; a stranger walks in the office
 
@@ -84,7 +88,7 @@
 	(investigateItemText ?person ?reply))
 
 
-(investigateItemText stranger "Do you wanna make a million dollars? My daughter, the heiress to the Juul family fortune was kidnapped")
+(investigateItemText stranger "'Do you wanna make a million dollars? My daughter, the heiress to the Juul family fortune was kidnapped. If you want to help me, query the following: (agreeTo player stranger ?reply) If you don't want to help me, query the following: (ignorePerson stranger ?reply)")
 
 
 (isa ignorePerson Relation)
@@ -103,7 +107,7 @@
 (arg2Isa agreeTo Person)
 
 (isa agreement Item)
-(investigateItemText agreement "Thanks! Let's go to my house.")
+(investigateItemText agreement "Thanks! Let's go to my house. Enter the following in the 'Commands' tab: (madeAgreement player). Then, you can look around the mansion by querying: (lookAround player ?reply) ")
 
 (<== (agreeTo ?person1 ?person2 ?reply)
     (equals ?person1 player)
@@ -123,13 +127,13 @@
 ;; The sunroom in the back has the footprint in it. 
 
 
-(investigateItemText heiressMansion "The Heiress's mansion is large and luxurious. You are standing at the base of the living room; the living room has a fireplace, a large seating area, a large dining room table, a staircase leading upstairs, and an open doorway to the sunroom in the back")
+(investigateItemText heiressMansion "The Heiress's mansion is large and luxurious. You are standing at the base of the living room; the living room has a <<fireplace>>, a large seating area with a <<longCouch>>, a large <<diningTable>>, a <<staircase>> leading upstairs, and the <<sunroomDoor>> leading to the back of the house. You can investigate any <<item>> by querying it as follows: (investigateItemText item ?reply)")
 
 ;; definition of all of the things that can be investigated from the sentence above 
 
 ;; for the fireplace 
 (isa fireplace Item)
-(investigateItemText fireplace "The fireplace has a large mantle clock on the top of it. There are charred remains of wood in the inner hearth...ash lines the firebrick...") 
+(investigateItemText fireplace "The fireplace has a large mantle clock on the top of it. There are charred remains of wood in the inner hearth...ash lines the firebrick... You can investigate any <<item>> by querying it as follows: (investigateItemText item ?reply)") 
 (isa clock Item) 
 (investigateItemText clock "The clock is not ticking; it is out of power. I am not sure how long...")
 
@@ -138,13 +142,13 @@
 (isa longCouch Item)
 (investigateItemText longCouch "The couch is large and white...it seems almost uncomfortable to sit on. Around the couch is a large coffee table, and the fireplace...") 
 (isa coffeeTable Item) 
-(investigateItemText coffeeTable "The coffee table is made almost completely from glass. There are some good housekeeping magazines, as well as a copy of GQ Britain...") 
+(investigateItemText coffeeTable "The coffee table is made almost completely from glass. There are some good housekeeping magazines, as well as a copy of GQ Britain... You can investigate any <<item>> by querying it as follows: (investigateItemText item ?reply)") 
 
 ;; for the dining room 
 (isa diningTable Item) 
-(investigateItemText diningTable "The dining table can seat fourteen people. At the center of the table is a bouquet of flowers...") 
+(investigateItemText diningTable "The dining table can seat fourteen people. At the center of the table is a <<bouquet>> of flowers... to query it: ()") 
 (isa bouquet Item) 
-(investigateItemText bouquet "The bouquet is large, however slightly wilted...they just get enough sun from the windows to the side that look into the sunroom...") 
+(investigateItemText bouquet "The bouquet is large, however slightly wilted...they just get enough sun from the windows to the side that look into the <<sunroomDoor>>... You can investigate any <<item>> by querying it as follows: (investigateItemText item ?reply)") 
 
 ;; for the staircase 
 (isa staircase Item) 
@@ -153,9 +157,9 @@
 
 ;; for the sunroom, and the clue being shown to them 
 (isa sunroomDoor Item) 
-(investigateItemText sunroomDoor "A door that leads from the main space to the sunroom in the back...strange, there are muddy footprints on the ground from the outside into the sunroom. They end at the sunroom door where I am located...") 
+(investigateItemText sunroomDoor "A door that leads from the main space to the sunroom in the back...strange, there are muddy <<footprints>> on the ground from the outside into the sunroom. They end at the sunroom door where I am located... You can investigate any <<item>> by querying it as follows: (investigateItemText item ?reply)") 
 (isa footprints Clue) 
-(investigateItemText footprints "These footprints do not look like they would belong to the Heiress. What is even more strange is that they come from outside, and do not end at the mat where the shoes go. My guess is that these not only don't belong to the Heiress, but they belong to someone who does not live here...I need to find out what kind of shoes these are...") 
+(investigateItemText footprints "These footprints do not look like they would belong to the Heiress. What is even more strange is that they come from outside, and do not end at the mat where the shoes go. My guess is that these not only don't belong to the Heiress, but they belong to someone who does not live here...I need to find out what kind of shoes these are... We can travel there by entering the following in the 'Commands' tab: (moveLocation player shoeStore). Then, we can look around the store by querying: (lookAround player ?reply)") 
 
 
 ;;;;;;;;;;;;;;;;;;;;;
@@ -164,8 +168,8 @@
 
 
 
-(investigateItemText shoeStore "You see a shoe salesman")
-(investigateItemText salesman "Yeah I sold those shoes to a guy named Lenny Kravitz")
+(investigateItemText shoeStore "You see a shoe <<salesman>>. You can investigate any <<item>> by querying it as follows: (investigateItemText item ?reply)")
+(investigateItemText salesman "Yeah I sold those shoes to a guy named Lenny Kravitz. You can travel to his house by entering the follwoing in the 'Commands' tab: (moveLocation player kravitzHouse). Once there, you can look around by querying: (lookAround player ?reply)")
 
 ;;; Arrive
 (isa lookAround Relation)
@@ -185,7 +189,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 
 
-(investigateItemText kravitzHouse "Just an ordinary looking house with a large front door, a garage, a few trashcans out on the curb, and some pretty flowers near the door")
+(investigateItemText kravitzHouse "Just an ordinary looking house with a large <<frontDoor>>, a <<garage>>, a few <<trashCans>> out on the curb, and some <<prettyFlowers>> near the door. You can investigate any <<item>> by querying it as follows: (investigateItemText item ?reply)")
 
 
 (isa knockOnDoor Relation)
@@ -218,7 +222,7 @@
 (investigateItemText prettyFlowers "Some nice lilies; I'm kind of surprised they are growing so well this time of year...")
 
 (isa trashCans Item)
-(investigateItemText trashCans "Hmmm, there is a reciept here blowing around... It's for the local bar... maybe I should check it out...")
+(investigateItemText trashCans "Hmmm, there is a reciept here blowing around... It's for the local bar... maybe I should check it out... We can travel there by entering the following in the 'Commands' tab: (moveLocation player bar). Then, we can look around the bar by querying: (lookAround player ?reply)")
 
 
 
