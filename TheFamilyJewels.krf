@@ -97,9 +97,19 @@
     (locationState player detectiveOffice)
     (lostGame detectiveOffice ?reply))
 
+(isa agreeTo Relation)
+(arity agreeTo 2)
+(arg1Isa agreeTo Person)
+(arg2Isa agreeTo Person)
 
+(isa agreement Item)
+(investigateItemText agreement "Thanks! Let's go to my house.")
 
-
+(<== (agreeTo ?person1 ?person2 ?reply)
+    (equals ?person1 player)
+    (equals ?person2 stranger)
+    (locationState player detectiveOffice)
+    (investigateItemText agreement ?reply))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; HEIRESS MANSION ;;;;;;

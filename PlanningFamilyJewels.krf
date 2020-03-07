@@ -21,6 +21,23 @@
 
 (preconditionForMethod
      (and
+          (ist-Information TheFamilyJewelsMt (agreeTo player stranger ?reply))
+     )
+     (methodForAction
+          (madeAgreement player)
+          (actionSequence 
+               (TheList
+                  (doAgentPlan
+                    (moveLocation player heiressMansion)
+                    ;(doTell (ist-Information TheFamilyJewelsMt (moveLo player heiressMansion)))
+                  )
+               )
+          )
+     )
+)
+
+(preconditionForMethod
+     (and
           (ist-Information TheFamilyJewelsMt (locationState player detectiveOffice))
      )
      (methodForAction

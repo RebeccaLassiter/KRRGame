@@ -5,6 +5,9 @@
 (isa moveLocation ComplexActionPredicate)
 (arity moveLocation 2)
 
+(isa madeAgreement ComplexActionPredicate)
+(arity madeAgreement 1)
+
 (isa killPerson ComplexActionPredicate)
 (arity killPerson 2)
 
