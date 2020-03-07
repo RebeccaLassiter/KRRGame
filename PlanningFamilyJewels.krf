@@ -2,43 +2,46 @@
 
 (preconditionForMethod
  (and
-      (PersonKillsPerson player LennyKravitz)
+      (ist-Information TheFamilyJewelsMt (PersonKillsPerson player LennyKravitz))
  )
  (methodForAction
-     (killPerson player LennyKravitz)
+     (ist-Information TheFamilyJewelsMt (killPerson player LennyKravitz))
      (actionSequence 
+          (killPerson player LennyKravitz)
           (TheList 
-               (killed LennyKravitz "Lenny is dead… So, the Heiress says ‘You have killed my one and only true love.. And now I will kill you’. The heiress stabs you repeatedly. You die. Game over. The end.")
+               (doAgentPlan
+                    (doRecord
+                         (ist-Information TheFamilyJewelsMt 
+                              (killed LennyKravitz "Lenny is dead… So, the Heiress says ‘You have killed my one and only true love.. And now I will kill you’. The heiress stabs you repeatedly. You die. Game over. The end."))
+                    )
+               )
           )
      )
   ))
 
-
 (preconditionForMethod
-     (and 
-          (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
+     (and
+          (ist-Information TheFamilyJewelsMt (locationState player detectiveOffice))
      )
      (methodForAction
-          (moveLocation player LennyKravitzHouse)
+          (moveLocation player heiressMansion)
           (actionSequence 
                (TheList
                   (doAgentPlan
-                    (doForget 
-                         (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
+                    (doForget
+                         (ist-Information TheFamilyJewelsMt (locationState player detectiveOffice))
                     )
                   )
                   (doAgentPlan
-                    (doRecord (ist-Information TheFamilyJewelsMt (locationState player LennyKravitzHouse)))
+                    (doTell (ist-Information TheFamilyJewelsMt (locationState player heiressMansion)))
                   )
                )
           )
      )
 )
 
-;; (doForget (ist-Information TheFamilyJewelsMt (locationState player detectiveOffice)))
-
 (preconditionForMethod
-     (and 
+     (and
           (ist-Information TheFamilyJewelsMt (locationState player heiressMansion))
      )
      (methodForAction
@@ -46,13 +49,75 @@
           (actionSequence 
                (TheList
                   (doAgentPlan
-                    (doForget 
+                    (doUntell
                          (ist-Information TheFamilyJewelsMt (locationState player heiressMansion))
                     )
-                   )
-                   (
-                    (doAgentPlan 
-                         (doRecord (ist-Information TheFamilyJewelsMt (locationState player shoeStore))))
+                  )
+                  (doAgentPlan
+                    (doTell (ist-Information TheFamilyJewelsMt (locationState player shoeStore)))
+                  )
+               )
+          )
+     )
+)
+
+(preconditionForMethod
+     (and
+          (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
+     )
+     (methodForAction
+          (moveLocation player kravitzHouse)
+          (actionSequence 
+               (TheList
+                  (doAgentPlan
+                    (doUntell
+                         (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
+                    )
+                  )
+                  (doAgentPlan
+                    (doTell (ist-Information TheFamilyJewelsMt (locationState player kravitzHouse)))
+                  )
+               )
+          )
+     )
+)
+
+(preconditionForMethod
+     (and
+          (ist-Information TheFamilyJewelsMt (locationState player kravitzHouse))
+     )
+     (methodForAction
+          (moveLocation player bar)
+          (actionSequence 
+               (TheList
+                  (doAgentPlan
+                    (doUntell
+                         (ist-Information TheFamilyJewelsMt (locationState player kravitzHouse))
+                    )
+                  )
+                  (doAgentPlan
+                    (doTell (ist-Information TheFamilyJewelsMt (locationState player bar)))
+                  )
+               )
+          )
+     )
+)
+
+(preconditionForMethod
+     (and
+          (ist-Information TheFamilyJewelsMt (locationState player bar))
+     )
+     (methodForAction
+          (moveLocation player cave)
+          (actionSequence 
+               (TheList
+                  (doAgentPlan
+                    (doUntell
+                         (ist-Information TheFamilyJewelsMt (locationState player bar))
+                    )
+                  )
+                  (doAgentPlan
+                    (doTell (ist-Information TheFamilyJewelsMt (locationState player cave)))
                   )
                )
           )
