@@ -48,6 +48,26 @@
 (lostGame detectiveOffice "You dont want a million dollars? You lost the game!")
 (lostGame cave "How could you kill lenny like that!! You lost the game!")
 
+
+;;use this to change location and forget old locations...Not working yet
+(isa changeLocation ComplexActionPredicate)
+(arity changeLocation 2)
+
+(methodForAction
+    (changeLocation ?person ?location)
+    (actionSequence
+        (TheList
+            
+            (doRecord (ist-Information TheFamilyJewelsMt (locationState ?person ?location))))))
+     
+     ;;how do we forget old location states? just list them all? 
+;(doForget (locationState ?person detectiveOffice))
+ ;           (doForget (locationState ?person heiressMansion))
+  ;          (doForget (locationState ?person KravitzHouse))
+   ;         (doForget (locationState ?person cave))
+    ;        (doForget (locationState ?person bar))
+     ;       (doForget (locationState ?person shoeStore))
+
 ;;;;;;;;;;;;;;;;;;
 ;;;;; OFFICE ;;;;;
 ;;;;;;;;;;;;;;;;;;
@@ -286,6 +306,9 @@
 
 ;;interrogate him using intimidation
 (positiveResponse LennyKravitz "ok, ok! I’ll tell you what I know!! The heiress is in the cave. The FDA payed me off to kidnap her. They are sick are of those darned juuls hurting the teens. I’ll take you to the cave, just don’t hurt me!! Enter the command (locationState player cave) to go to the cave with me.")
+
+
+
 
 
 
