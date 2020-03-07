@@ -1,9 +1,61 @@
-(in-microtheory TheFamilyJewelsMt)
+(in-microtheory TheFamilyJewelsPlansMt)
 
 (preconditionForMethod
  (and
       (PersonKillsPerson player LennyKravitz)
-      )
+ )
  (methodForAction
-    (killed LennyKravitz "Lenny is dead… So, the Heiress says ‘You have killed my one and only true love.. And now I will kill you’. The heiress stabs you repeatedly. You die. Game over. The end.")
+     (killPerson player LennyKravitz)
+     (actionSequence 
+          (TheList 
+               (killed LennyKravitz "Lenny is dead… So, the Heiress says ‘You have killed my one and only true love.. And now I will kill you’. The heiress stabs you repeatedly. You die. Game over. The end.")
+          )
+     )
   ))
+
+
+(preconditionForMethod
+     (and 
+          (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
+     )
+     (methodForAction
+          (moveLocation player LennyKravitzHouse)
+          (actionSequence 
+               (TheList
+                  (doAgentPlan
+                    (doForget 
+                         (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
+                    )
+                  )
+                  (doAgentPlan
+                    (doRecord (ist-Information TheFamilyJewelsMt (locationState player LennyKravitzHouse)))
+                  )
+               )
+          )
+     )
+)
+
+;; (doForget (ist-Information TheFamilyJewelsMt (locationState player detectiveOffice)))
+
+(preconditionForMethod
+     (and 
+          (ist-Information TheFamilyJewelsMt (locationState player heiressMansion))
+     )
+     (methodForAction
+          (moveLocation player shoeStore)
+          (actionSequence 
+               (TheList
+                  (doAgentPlan
+                    (doForget 
+                         (ist-Information TheFamilyJewelsMt (locationState player heiressMansion))
+                    )
+                   )
+                   (
+                    (doAgentPlan 
+                         (doRecord (ist-Information TheFamilyJewelsMt (locationState player shoeStore))))
+                  )
+               )
+          )
+     )
+)
+

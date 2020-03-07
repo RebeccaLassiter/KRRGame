@@ -1,0 +1,9 @@
+(in-microtheory TheFamilyJewelsMt)
+(genlMt TheFamilyJewelsPlansMt TheFamilyJewelsMt)
+(genlMt Session-ReasonerPlanMt TheFamilyJewelsPlansMt)
+
+(isa moveLocation ComplexActionPredicate)
+(arity moveLocation 2)
+
+(isa killPerson ComplexActionPredicate)
+(arity killPerson 2)
