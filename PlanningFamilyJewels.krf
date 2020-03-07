@@ -156,7 +156,7 @@
                   )
                   (doAgentPlan
                     (doTell 
-                         (investigateItemtext footprints "whatever....")
+                         (investigateItemText footprints "These footprints do not look like they would belong to the Heiress. What is even more strange is that they come from outside, and do not end at the mat where the shoes go. My guess is that these not only don't belong to the Heiress, but they belong to someone who does not live here...I need to find out what kind of shoes these are... We can travel there by entering the following in the 'Commands' tab: (moveLocation player shoeStore). Then, we can look around the store by querying: (lookAround player ?reply)") 
                     )
                   )
                )
