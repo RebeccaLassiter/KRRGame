@@ -167,10 +167,10 @@
 
 
 
-(investigateItemText shoeStore "You see a shoe <<salesman>>. You can talk to the Salesman by querying it as follows: (talkTo shoeStoreSalesman ?reply)")
+;; (investigateItemText shoeStore "You see a shoe <<salesman>>. You can talk to the Salesman by querying it as follows: (talkTo shoeStoreSalesman ?reply)")
 
 
-(investigateItemText shoeStoreSalesman "'Hey, look at you--what are you, size 10? I got the perfect pair for you...Here try these on for size!' The salesman quickly walks away from you down the tall shelves of shoes. If you choose to follow him enter the following in the 'Commands tab: (followSalesman player)")
+;; (investigateItemText shoeStoreSalesman "'Hey, look at you--what are you, size 10? I got the perfect pair for you...Here try these on for size!' The salesman quickly walks away from you down the tall shelves of shoes. If you choose to follow him enter the following in the 'Commands tab: (followSalesman player) and then query (talkTo shoeStoreSalesman ?reply)")
 
 
 
