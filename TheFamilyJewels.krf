@@ -23,10 +23,7 @@
 (isa LennyKravitz Person)
 (locationState LennyKravitz bar)
 
-(isa investigateItemText Relation) 
-(arity investigateItemText 2) 
-(arg1Isa investigateItemText Item) 
-(arg2Isa investigateItemText String)
+
 
 
 ;; Location entities
@@ -43,6 +40,13 @@
 
 (isa cave Place)
 
+
+;;General, helpful relations
+
+(isa investigateItemText Relation) 
+(arity investigateItemText 2) 
+(arg1Isa investigateItemText Item) 
+(arg2Isa investigateItemText String)
 
 (isa lostGame Relation) 
 (arity lostGame 2)
@@ -64,14 +68,29 @@
 (arg1Isa helpInfo Place)
 (arg2Isa helpInfo String)
 
+(isa lookAround Relation)
+(arity lookAround 2)
+(arg1Isa lookAround Person)
+(arg2Isa lookAround String)
 
+(<== (lookAround ?player ?reply)
+     (locationState player ?location)    
+     (investigateItemText ?location ?reply)  
+)
+
+(isa investigate Relation) 
+(arity investigate 2) 
+(arg1Isa investigate Thing) 
+(arg2Isa investigate String) 
+
+(<== (investigate ?item ?reply) 
+    (investigateItemText ?item ?reply)) 
 
 ;;;;;;;;;;;;;;;;;;
 ;;;;; OFFICE ;;;;;
 ;;;;;;;;;;;;;;;;;;
 
 (locationState player detectiveOffice)
-;; a stranger walks in the office
 
 (helpInfo detectiveOffice "In the detective office, you can talk to the stranger (talkTo stranger ?reply), ignore the stranger (ignorePerson stranger ?reply), or agree with the stranger (agreeTo stranger player ?reply)")
 
@@ -117,13 +136,6 @@
 ;;;;; HEIRESS MANSION ;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Basic story is that the kidnapper, Lenny Kravitz, left a muddy footprint near the back door of the house.
-;; There is a front door, a very large main space, a staircase, to the left (which is blocked), a kitchen to
-;; the left, a sunroom in the back, and a bathroom to the right (directions will not matter, there will be 
-;; a choice. 
-
-;; The sunroom in the back has the footprint in it. 
-
 
 (investigateItemText heiressMansion "The Heiress's mansion is large and luxurious. You are standing at the base of the living room; the living room has a <<fireplace>>, a large seating area with a <<longCouch>>, a large <<diningTable>>, a <<staircase>> leading upstairs, and the <<sunroomDoor>> leading to the back of the house. You can investigate any <<item>> by querying it as follows: (investigate item ?reply)")
 
@@ -144,7 +156,7 @@
 
 ;; for the dining room 
 (isa diningTable Item) 
-(investigateItemText diningTable "The dining table can seat fourteen people. At the center of the table is a <<bouquet>> of flowers... to query it: ()") 
+(investigateItemText diningTable "The dining table can seat fourteen people. At the center of the table is a <<bouquet>> of flowers. You can investigate any <<item>> by querying it as follows: (investigate item ?reply)") 
 (isa bouquet Item) 
 (investigateItemText bouquet "The bouquet is large, however slightly wilted...they just get enough sun from the windows to the side that look into the <<sunroomDoor>>... You can investigate any <<item>> by querying it as follows: (investigate item ?reply)") 
 
@@ -156,49 +168,20 @@
 ;; for the sunroom, and the clue being shown to them 
 (isa sunroomDoor Item) 
 (investigateItemText sunroomDoor "A door that leads from the main space to the sunroom in the back...strange, there are muddy <<footprints>> on the ground from the outside into the sunroom. They end at the sunroom door where I am located... You can investigate any <<item>> by querying it as follows: (investigate item ?reply)") 
+
 (isa footprints Clue) 
-(investigateItemText footprints "These footprints do not look like they would belong to the Heiress. What is even more strange is that they come from outside, and do not end at the mat where the shoes go. My guess is that these not only don't belong to the Heiress, but they belong to someone who does not live here...I need to find out what kind of shoes these are... We can travel there by entering the following in the 'Commands' tab: (moveLocation player shoeStore). Then, we can look around the store by querying: (lookAround player ?reply)") 
+(investigateItemText footprints "These footprints do not look like they would belong to the Heiress. What is even more strange is that they come from outside, and do not end at the mat where the shoes go. My guess is that these not only don't belong to the Heiress, but they belong to someone who does not live here...I need to find out what kind of shoes these are... We can travel to the local shoe store by entering the following in the 'Commands' tab: (moveLocation player shoeStore). Then, we can look around the store by querying: (lookAround player ?reply)") 
 
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;;;; Shoe Store ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 
+;;; Most of the magic is happening in the planning section
 
-
-
-;; (investigateItemText shoeStore "You see a shoe <<salesman>>. You can talk to the Salesman by querying it as follows: (talkTo shoeStoreSalesman ?reply)")
-
-
-;; (investigateItemText shoeStoreSalesman "'Hey, look at you--what are you, size 10? I got the perfect pair for you...Here try these on for size!' The salesman quickly walks away from you down the tall shelves of shoes. If you choose to follow him enter the following in the 'Commands tab: (followSalesman player) and then query (talkTo shoeStoreSalesman ?reply)")
-
-
-
-
-;;; Arrive
-(isa lookAround Relation)
-(arity lookAround 2)
-(arg1Isa lookAround Person)
-(arg2Isa lookAround String)
-
-(<== (lookAround ?player ?reply)
-     (locationState player ?location)    
-     (investigateItemText ?location ?reply)  
-)
-
-;; maze?
-;; position center, can go left or right
-;; (investigateItemText shoeStore "The shoestore is surprisingly full of shoes for such a small place, there are just walls all the way to the ceiling covered with shoes. You can't see anyone right now, I suppose its time to look around -- should I go left or right?")
 (isa shoeStoreLocation Relation)
 (arity shoeStoreLocation 1)
 (arg1Isa shoeStoreLocation String)
-;; (shoeStoreLocation center)
-
-;; position left, can go center
-;; (investigateItemText shoeStore "This section of the room seems to mostly full of children's shoes of various colors... I don't really think this area can help us in anyway... Maybe we should go back to the front of the store")
-
-;; position right, can go center or talk to salesman
-;; (investigateItemText shoeStore "You see a shoe <<salesman>>. You can investigate any <<item>> by querying it as follows: (investigateItemText item ?reply)")
 
 
 
@@ -207,7 +190,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 
 
-(investigateItemText kravitzHouse "Just an ordinary looking house with a large <<frontDoor>>, a <<garage>>, a few <<trashCans>> out on the curb, and some <<prettyFlowers>> near the door. You can investigate any <<item>> by querying it as follows: (investigate item ?reply)")
+(investigateItemText kravitzHouse "Just an ordinary looking house with a <<garage>>, a few <<trashCans>> out on the curb, and some <<prettyFlowers>> near the door. You can investigate any <<item>> by querying it as follows: (investigate item ?reply). If you want to see if anyone's home enter the query (knockOnDoor kravitzHouse ?reply)")
 
 
 (isa knockOnDoor Relation)
@@ -216,18 +199,6 @@
 (arg2Isa knockOnDoor String)
 (<== (knockOnDoor ?location ?reply)
     (investigateItemText frontDoor ?reply))
-
-;; (knockOnDoor LennyKravitzHouse ?reply)
-;; (investigateItemText LennyKravitzHouse "No one answered the door")
-
-
-(isa investigate Relation) 
-(arity investigate 2) 
-(arg1Isa investigate Thing) 
-(arg2Isa investigate String) 
-
-(<== (investigate ?item ?reply) 
-    (investigateItemText ?item ?reply)) 
 
 
 (isa frontDoor Item)
@@ -249,9 +220,12 @@
 ;;;;;;;;;;;;;;;;
 
 
-(investigateItemText bar "You walk into a dimly lit bar, a radio plays quietly. The only people inside are the bartender and a mysterious man in the corner.")
-(investigateItemText bartender "do you wanna order a drink?")
+(investigateItemText bar "You walk into a dimly lit bar, a <<radio>> plays quietly. The only people inside are the bartender and a mysterious man in the corner.You can investigate any <<item>> by querying it as follows: (investigate item ?reply). If you want to talk to the bartender enter the query: (talkTo bartender ?reply)")
+
+(investigateItemText bartender "'Do you wanna order a drink?' the bartender asks. If you want to order a drink. Enter the fact (orderDrink player bartender) and click on the 'tell' button. You can also interrogate the bartender in a polite manner by entering the query (interrogate bartender PoliteSpeech ?reply) or you can interrogate him using intimidation by entering the following query: (interrogate bartender ObjectionableSpeech ?reply). Beware that the bartender is a quiet man and doesn't always reply to non-customers.")
+
 (investigateItemText LennyKravitz "hey leave me alone man, I’m drinking here")
+
 (isa radio Item)
 (investigateItemText radio "The radio is currently playing some smooth jazz. You hangout for a bit listening...it reminds you of your wife...her favorite music was jazz. You take out your wallet and look at her picture wistfully. For a moment, the bar disappears and you are taken to another time.")
 
@@ -295,12 +269,7 @@
      (orderDrink player ?person)
      (positiveResponse ?person ?reply)
 )
-;;bartender neutral interrogation -- sad
-;; (<== (interrogate ?person ?qualityOfInterrogation ?reply)
-   ;;   (equals ?qualityOfInterrogation PoliteSpeech)
-   ;;   (equals ?person bartender)
-   ;;   (neutralResponse ?person ?reply)
-;; )
+
 ;;; Interrogate objectionable for bartender
 (<== (interrogate ?person ?qualityOfInterrogation ?reply)
      (equals ?qualityOfInterrogation ObjectionableSpeech)
@@ -324,7 +293,8 @@
 
 
 ;;if they bought a beer (aka you’re friends) and interrogates bartender 
-(positiveResponse bartender "You’re looking for a guy called Kravitz? Yeah, I know him...he’s a regular here...right over there!")
+(positiveResponse bartender "'You’re looking for a guy called Kravitz? Yeah, I know him...he’s a regular here...right over there!' If you want to talk to Lenny Kravitz enter the following query: (talkTo LennyKravitz ?reply). Similarly, if you want to interrogate him using polite tactics or intimidation tactics, enter either of the following queries: 
+(interrogate LennyKravitz ObjectionableSpeech ?reply), (interrogate LennyKravitz PoliteSpeech ?reply)")
 
 ;;if they haven’t bought a beer yet
 (neutralResponse bartender "What, you come into my establishment asking questions and you’re not even gonna buy a drink?")
@@ -337,37 +307,25 @@
 (negativeResponse LennyKravitz "listen bud..leave me alone")
 
 ;;interrogate him using intimidation
-(positiveResponse LennyKravitz "ok, ok! I’ll tell you what I know!! The heiress is in the cave. The FDA payed me off to kidnap her. They are sick are of those darned juuls hurting the teens. I’ll take you to the cave, just don’t hurt me!! Enter the command (locationState player cave) to go to the cave with me.")
-
-
-
+(positiveResponse LennyKravitz "'ok, ok! I’ll tell you what I know!! The heiress is in the cave. The FDA paid me off to kidnap her. They are sick are of those darned Juuls hurting the teens. I’ll take you to the cave, just don’t hurt me!!' We can travel to the cave by entering the following in the 'Commands' tab: (moveLocation player cave). Then, we can look around the cave by querying: (lookAround player ?reply)")
 
 
 
 ;;;;; CAVE ;;;;;
 
-(investigateItemText cave "you see the heiress inside the cave")
+(investigateItemText cave "You enter a damp, dark cave with Lenny Kravitz. You see the heiress inside the cave; Lenny--that scoundrel--is by your side. If you choose the rescue the heiress, enter the following query: (rescue heiress ?reply). If you choose to kill Lenny Kravitz enter the following fact: (PersonKillsPerson player LennyKravitz) and click the 'tell' button to add. Then enter the following command in the 'Commands' tab: (killPerson player LennyKravitz). To see the result of your murder, enter the following query: (killed LennyKravitz ?reply)")
 
 ;; save the heiress or not
 (isa rescue Relation)
 (arity rescue 2)
 (arg1Isa rescue Person)
-(arg2Isa rescue Person)
+(arg2Isa rescue String)
 (comment rescue "a Relation that describes the relation when the first argument rescues the second argument; the second argument is now safe")
 (rescue heiress "Congratulations! You've saved the heiress. You win!")
 
-;; if the player chooses to save the heiress, she is safe and the game ends
-;; add this fact to the kb
-;; (rescue player heiress)
-;;somehow reason to make her safe, using reasoning
-;; (safe heiress) -- TODO
 
-;; if the player chooses to ignore the heiress, the game ends
-;; add this fact to the kb
-;; (ignorePerson heiress ?reply)
-(investigateItemText heiress "you failed to save the heiress. You lose.")
 
-;; kill the perpetrator or not
+;; kill the perpetrator or not. This works in tandem with the planning files
 (isa PersonKillsPerson Relation)
 (<== (PersonKillsPerson ?person ?reply)
 	(killed ?person ?reply)
@@ -378,9 +336,6 @@
 ; the second argument is now dead
 (comment PersonKillsPerson "a Relation that describes the relation when the first argument kills the second argument")
 
-;; if the player chooses to kill the Lenny, you lose
-;; (PersonKillsPerson LennyKravitz ?reply)
-;; define killed
 (isa killed Relation)
 (arity killed 2)
 (arg1Isa killed Person)
@@ -388,7 +343,4 @@
 
 (killed LennyKravitz "Lenny is dead… So, the Heiress says ‘You have killed my one and only true love.. And now I will kill you’. The heiress stabs you repeatedly. You die. Game over. The end.")
 
-;; somehow add reasoning that lenny is dead
 
-;; if the player chooses to ignore lenny, nothing happens
-;; (ignorePerson LennyKravitz ?reply)

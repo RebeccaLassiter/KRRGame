@@ -1,5 +1,6 @@
 (in-microtheory TheFamilyJewelsPlansMt)
 
+;;If you try to kill Lenny, he is dead
 (preconditionForMethod
  (and
       (ist-Information TheFamilyJewelsMt (PersonKillsPerson player LennyKravitz))
@@ -19,6 +20,7 @@
      )
   ))
 
+;;Agreeing to the stranger's deal takes you to the heiress' mansion
 (preconditionForMethod
      (and
           (ist-Information TheFamilyJewelsMt (agreeTo player stranger ?reply))
@@ -36,6 +38,7 @@
      )
 )
 
+;;Different plans for moving between locations. 
 (preconditionForMethod
      (and
           (ist-Information TheFamilyJewelsMt (locationState player detectiveOffice))
@@ -87,7 +90,7 @@
                          The shoestore is surprisingly full of shoes for such a small place, 
                          there are just walls all the way to the ceiling covered with shoes. 
                          You can't see anyone right now, I suppose its time to look around -- should I go left or right?
-                         Move by entering (goDirection left) or (goDirection right) in the Commands tab")
+                         Move by entering (goDirection left) or (goDirection right) in the Commands tab. Then query (lookAround player ?reply) to see your new surroundings.")
                     ))
                   )
                )
@@ -158,6 +161,7 @@
      )
 )
 
+;;Player can't see the footprints until they've investigated the sunroomDoor
 (preconditionForMethod
      (and
           (ist-Information TheFamilyJewelsMt (investigate sunroomDoor ?reply))
@@ -181,7 +185,7 @@
      )
 )
 
-
+;;Following the salesman after he brushes you off
 (preconditionForMethod
      (and
           (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
@@ -209,9 +213,9 @@
                   )
                   (doAgentPlan
                     (doTell (ist-Information TheFamilyJewelsMt 
-                      (investigateItemText shoeStoreSalesman "Hey keep it down man, this guy is dangerous...
-                      Yeah I sold those shoes to a guy named Lenny Kravitz. If I were you I would stop while you're ahead
-                      ...you're getting into some dangerous territory. You can travel to his house by entering the follwoing 
+                      (investigateItemText shoeStoreSalesman "'Hey keep it down man, this guy is dangerous...
+                      Yeah I sold those shoes to Lenny Kravitz. If I were you I would stop while you're ahead
+                      ...you're getting into some dangerous territory.' You can travel to his house by entering the following 
                       in the 'Commands' tab: (moveLocation player kravitzHouse). Once there, you can look around by querying: 
                       (lookAround player ?reply)")))
                   )
@@ -220,7 +224,7 @@
       )
   )
 
-
+;;Moving around the shoeStore
 (preconditionForMethod
      (and
           (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
@@ -243,8 +247,8 @@
                   (doAgentPlan
                     (doTell (ist-Information TheFamilyJewelsMt (investigateItemText shoeStore 
                     "This section of the room seems to mostly full of children's shoes of various colors... 
-                    I don't really think this area can help us in anyway... Maybe we should go back to the front of the store
-                    Go back by entering (goDirection center) in the Commands tab")))
+                    I don't really think this area can help us in anyway... Maybe we should go back to the front of the store.
+                    Go back by entering (goDirection center) in the Commands tab. Then, we can look around the store by querying: (lookAround player ?reply)")))
                   )
                   (doAgentPlan 
                     (doTell 
@@ -283,7 +287,7 @@
                               there are just walls all the way to the ceiling covered with shoes. 
                               You can't see anyone right now, I suppose its time to look around -- 
                               should I go left or right? Move by entering (goDirection left) or 
-                              (goDirection right) in the Commands tab"))
+                              (goDirection right) in the Commands tab. Then, we can look around the store by querying: (lookAround player ?reply)"))
                     )
                   )
                   (doAgentPlan 
@@ -321,7 +325,7 @@
                               (investigateItemText shoeStoreSalesman "'Hey, look at you--what are you, size 10? 
                               I got the perfect pair for you...Here try these on for size!' The salesman quickly 
                               walks away from you down the tall shelves of shoes. If you choose to follow him 
-                              enter the following in the 'Commands tab: (followSalesman player) and then query 
+                              enter the following in the 'Commands' tab: (followSalesman player) and then query 
                               (talkTo shoeStoreSalesman ?reply)")
                          )
                     )

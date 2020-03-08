@@ -14,7 +14,6 @@
 (isa updatePlayerKnowledge ComplexActionPredicate)
 (arity updatePlayerKnowledge 2)
 
-
 (isa followSalesman ComplexActionPredicate)
 (arity followSalesman 1)
 
