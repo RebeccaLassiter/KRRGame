@@ -13,3 +13,6 @@
 
 (isa updatePlayerKnowledge ComplexActionPredicate)
 (arity updatePlayerKnowledge 2)
+
+(isa goDirection ComplexActionPredicate)
+(arity goDirection 1)
