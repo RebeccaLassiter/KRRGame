@@ -190,6 +190,7 @@
                     (doTell (ist-Information TheFamilyJewelsMt 
                       (investigateItemText shoeStoreSalesman "Hey keep it down man, this guy is dangerous...Yeah I sold those shoes to a guy named Lenny Kravitz. If I were you I would stop while you're ahead...you're getting into some dangerous territory. You can travel to his house by entering the follwoing in the 'Commands' tab: (moveLocation player kravitzHouse). Once there, you can look around by querying: (lookAround player ?reply)")))
                   )
+                  ;; TODO: does not forget
                   (doAgentPlan
                     (doForget (ist-Information TheFamilyJewelsMt 
                       (investigateItemText shoeStoreSalesman "'Hey, look at you--what are you, size 10? I got the perfect pair for you...Here try these on for size!' The salesman quickly walks away from you down the tall shelves of shoes. If you choose to follow him enter the following in the 'Commands tab: (followSalesman player)")))
@@ -255,6 +256,7 @@
                     (doTell 
                          (ist-Information TheFamilyJewelsMt 
                               (investigateItemText shoeStore "The shoestore is surprisingly full of shoes for such a small place, there are just walls all the way to the ceiling covered with shoes. You can't see anyone right now, I suppose its time to look around -- should I go left or right?"))
+                    )
                   )
                   (doAgentPlan 
                     (doTell 
@@ -297,4 +299,3 @@
           )
      )
 )
-

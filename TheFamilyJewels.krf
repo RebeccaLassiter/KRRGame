@@ -99,9 +99,10 @@
     (lostGame detectiveOffice ?reply))
 
 (isa agreeTo Relation)
-(arity agreeTo 2)
+(arity agreeTo 3)
 (arg1Isa agreeTo Person)
 (arg2Isa agreeTo Person)
+(arg3Isa agreeTo String)
 
 (isa agreement Item)
 (investigateItemText agreement "Thanks! Let's go to my house. Enter the following in the 'Commands' tab: (madeAgreement player). Then, you can look around the mansion by querying: (lookAround player ?reply) ")
@@ -294,12 +295,12 @@
      (orderDrink player ?person)
      (positiveResponse ?person ?reply)
 )
-;;bartender neutral interrogation
-(<== (interrogate ?person ?qualityOfInterrogation ?reply)
-     (equals ?qualityOfInterrogation PoliteSpeech)
-     (equals ?person bartender)
-     (neutralResponse ?person ?reply)
-)
+;;bartender neutral interrogation -- sad
+;; (<== (interrogate ?person ?qualityOfInterrogation ?reply)
+   ;;   (equals ?qualityOfInterrogation PoliteSpeech)
+   ;;   (equals ?person bartender)
+   ;;   (neutralResponse ?person ?reply)
+;; )
 ;;; Interrogate objectionable for bartender
 (<== (interrogate ?person ?qualityOfInterrogation ?reply)
      (equals ?qualityOfInterrogation ObjectionableSpeech)
@@ -353,6 +354,7 @@
 (arg1Isa rescue Person)
 (arg2Isa rescue Person)
 (comment rescue "a Relation that describes the relation when the first argument rescues the second argument; the second argument is now safe")
+(rescue heiress "Congratulations! You've saved the heiress. You win!")
 
 ;; if the player chooses to save the heiress, she is safe and the game ends
 ;; add this fact to the kb
