@@ -5,12 +5,12 @@
       (ist-Information TheFamilyJewelsMt (PersonKillsPerson player LennyKravitz))
  )
  (methodForAction
-     (ist-Information TheFamilyJewelsMt (killPerson player LennyKravitz))
+     (killPerson player LennyKravitz)
      (actionSequence 
           (killPerson player LennyKravitz)
           (TheList 
                (doAgentPlan
-                    (doRecord
+                    (doTell
                          (ist-Information TheFamilyJewelsMt 
                               (killed LennyKravitz "Lenny is dead… So, the Heiress says ‘You have killed my one and only true love.. And now I will kill you’. The heiress stabs you repeatedly. You die. Game over. The end."))
                     )
@@ -50,6 +50,11 @@
                     )
                   )
                   (doAgentPlan
+                    (doUntell
+                         (ist-Information TheFamilyJewelsMt (locationState player detectiveOffice))
+                    )
+                  )
+                  (doAgentPlan
                     (doTell (ist-Information TheFamilyJewelsMt (locationState player heiressMansion)))
                   )
                )
@@ -72,6 +77,14 @@
                   )
                   (doAgentPlan
                     (doTell (ist-Information TheFamilyJewelsMt (locationState player shoeStore)))
+                  )
+                  (doAgentPlan
+                    (doTell (ist-Information TheFamilyJewelsMt (shoeStoreLocation center)))
+                  )
+                  (doAgentPlan
+                    (doTell (ist-Information TheFamilyJewelsMt 
+                         (investigateItemText shoeStore "The shoestore is surprisingly full of shoes for such a small place, there are just walls all the way to the ceiling covered with shoes. You can't see anyone right now, I suppose its time to look around -- should I go left or right?")
+                    ))
                   )
                )
           )
@@ -164,7 +177,7 @@
      )
 )
 
-;;ShoeStore moveRight from shoeStore
+
 (preconditionForMethod
      (and
           (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
@@ -181,10 +194,107 @@
                     (doForget (ist-Information TheFamilyJewelsMt 
                       (investigateItemText shoeStoreSalesman "'Hey, look at you--what are you, size 10? I got the perfect pair for you...Here try these on for size!' The salesman quickly walks away from you down the tall shelves of shoes. If you choose to follow him enter the following in the 'Commands tab: (followSalesman player)")))
                   )
+                )
+          )
+      )
+  )
 
+
+(preconditionForMethod
+     (and
+          (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
+          (ist-Information TheFamilyJewelsMt (shoeStoreLocation center))
+     )
+     (methodForAction
+          (goDirection left)
+          (actionSequence 
+               (TheList
+                  (doAgentPlan
+                    (doUntell 
+                         (ist-Information TheFamilyJewelsMt (investigateItemText shoeStore ?text))
+                    )
+                  )
+                  (doAgentPlan
+                    (doUntell 
+                         (ist-Information TheFamilyJewelsMt (shoeStoreLocation center))
+                    )
+                  )
+                  (doAgentPlan
+                    (doTell (ist-Information TheFamilyJewelsMt (investigateItemText shoeStore "This section of the room seems to mostly full of children's shoes of various colors... I don't really think this area can help us in anyway... Maybe we should go back to the front of the store")))
+                  )
+                  (doAgentPlan 
+                    (doTell 
+                         (ist-Information TheFamilyJewelsMt (shoeStoreLocation left))
+                    )
+                  )
                )
           )
      )
 )
 
+(preconditionForMethod
+     (and
+          (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
+          (ist-Information TheFamilyJewelsMt (shoeStoreLocation left))
+     )
+     (methodForAction
+          (goDirection center)
+          (actionSequence 
+               (TheList
+                  (doAgentPlan
+                    (doUntell 
+                         (ist-Information TheFamilyJewelsMt (investigateItemText shoeStore ?text))
+                    )
+                  )
+                  (doAgentPlan
+                    (doUntell 
+                         (ist-Information TheFamilyJewelsMt (shoeStoreLocation left))
+                    )
+                  )
+                  (doAgentPlan
+                    (doTell 
+                         (ist-Information TheFamilyJewelsMt 
+                              (investigateItemText shoeStore "The shoestore is surprisingly full of shoes for such a small place, there are just walls all the way to the ceiling covered with shoes. You can't see anyone right now, I suppose its time to look around -- should I go left or right?"))
+                  )
+                  (doAgentPlan 
+                    (doTell 
+                         (ist-Information TheFamilyJewelsMt (shoeStoreLocation center))
+                    )
+                  )
+               )
+          )
+     )
+)
+
+(preconditionForMethod
+     (and
+          (ist-Information TheFamilyJewelsMt (locationState player shoeStore))
+          (ist-Information TheFamilyJewelsMt (shoeStoreLocation center))
+     )
+     (methodForAction
+          (goDirection right)
+          (actionSequence 
+               (TheList
+                  (doAgentPlan
+                    (doUntell (ist-Information TheFamilyJewelsMt (investigateItemText shoeStore ?text)))
+                  )
+                  (doAgentPlan
+                    (doTell 
+                         (ist-Information TheFamilyJewelsMt (investigateItemText shoeStore "You see a shoe <<salesman>>. You can investigate any <<item>> by querying it as follows: (investigateItemText item ?reply)"))
+                    )
+                  )
+                  (doAgentPlan
+                    (doTell 
+                         (ist-Information TheFamilyJewelsMt (shoeStoreLocation right))
+                    )
+                  )
+                  (doAgentPlan 
+                    (doUntell 
+                         (ist-Information TheFamilyJewelsMt (shoeStoreLocation center))
+                    )
+                  )
+               )
+          )
+     )
+)
 

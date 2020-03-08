@@ -17,3 +17,7 @@
 
 (isa followSalesman ComplexActionPredicate)
 (arity followSalesman 1)
+
+(isa goDirection ComplexActionPredicate)
+(arity goDirection 1)
+

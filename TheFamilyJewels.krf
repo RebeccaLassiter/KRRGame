@@ -33,8 +33,7 @@
 (isa detectiveOffice Place)
 
 (isa shoeStore Place)
-(isa shoeStoreRight Place)
-(isa shoeStoreLeft Place)
+
 
 (isa heiressMansion Place)
 
@@ -53,6 +52,18 @@
 (lostGame detectiveOffice "You dont want a million dollars? You lost the game!")
 (lostGame cave "How could you kill lenny like that!! You lost the game!")
 
+(isa gameHelp Relation)
+(arity gameHelp 1)
+(arg1Isa gameHelp String)
+(<== (gameHelp ?reply)
+    (locationState player ?location)
+    (helpInfo ?location ?reply))
+
+(isa helpInfo Relation)
+(arity helpInfo 2)
+(arg1Isa helpInfo Place)
+(arg2Isa helpInfo String)
+
 
 
 ;;;;;;;;;;;;;;;;;;
@@ -61,6 +72,8 @@
 
 (locationState player detectiveOffice)
 ;; a stranger walks in the office
+
+(helpInfo detectiveOffice "In the detective office, you can talk to the stranger (talkTo stranger ?reply), ignore the stranger (ignorePerson stranger ?reply), or agree with the stranger (agreeTo stranger player ?reply)")
 
 (isa talkTo Relation)
 (arity talkTo 2)
@@ -152,10 +165,14 @@
 
 
 
+
 (investigateItemText shoeStore "You see a shoe <<salesman>>. You can talk to the Salesman by querying it as follows: (talkTo shoeStoreSalesman ?reply)")
 
 
 (investigateItemText shoeStoreSalesman "'Hey, look at you--what are you, size 10? I got the perfect pair for you...Here try these on for size!' The salesman quickly walks away from you down the tall shelves of shoes. If you choose to follow him enter the following in the 'Commands tab: (followSalesman player)")
+
+
+
 
 ;;; Arrive
 (isa lookAround Relation)
@@ -168,6 +185,19 @@
      (investigateItemText ?location ?reply)  
 )
 
+;; maze?
+;; position center, can go left or right
+;; (investigateItemText shoeStore "The shoestore is surprisingly full of shoes for such a small place, there are just walls all the way to the ceiling covered with shoes. You can't see anyone right now, I suppose its time to look around -- should I go left or right?")
+(isa shoeStoreLocation Relation)
+(arity shoeStoreLocation 1)
+(arg1Isa shoeStoreLocation String)
+;; (shoeStoreLocation center)
+
+;; position left, can go center
+;; (investigateItemText shoeStore "This section of the room seems to mostly full of children's shoes of various colors... I don't really think this area can help us in anyway... Maybe we should go back to the front of the store")
+
+;; position right, can go center or talk to salesman
+;; (investigateItemText shoeStore "You see a shoe <<salesman>>. You can investigate any <<item>> by querying it as follows: (investigateItemText item ?reply)")
 
 
 
@@ -184,10 +214,10 @@
 (arg1Isa knockOnDoor Place)
 (arg2Isa knockOnDoor String)
 (<== (knockOnDoor ?location ?reply)
-    (investigateItemText ?location ?reply))
+    (investigateItemText frontDoor ?reply))
 
 ;; (knockOnDoor LennyKravitzHouse ?reply)
-(investigateItemText LennyKravitzHouse "No one answered the door")
+;; (investigateItemText LennyKravitzHouse "No one answered the door")
 
 
 (isa investigate Relation) 
@@ -200,7 +230,7 @@
 
 
 (isa frontDoor Item)
-(investigateItemText frontDoor "Looks kinda just like any normal front door to me...")
+(investigateItemText frontDoor "No one answered the door... and it looks kinda just like any normal front door to me...")
 
 (isa garage Item)
 (investigateItemText garage "Well the garage door is closed and I don't really want to break into it... so not a lot to be gained from it")
