@@ -175,7 +175,7 @@
                (TheList
                   (doAgentPlan
                     (doTell (ist-Information TheFamilyJewelsMt 
-                      (investigateItemText shoeStoreSalesman "Yeah I sold those shoes to a guy named Lenny Kravitz. You can travel to his house by entering the follwoing in the 'Commands' tab: (moveLocation player kravitzHouse). Once there, you can look around by querying: (lookAround player ?reply)")))
+                      (investigateItemText shoeStoreSalesman "Hey keep it down man, this guy is dangerous...Yeah I sold those shoes to a guy named Lenny Kravitz. If I were you I would stop while you're ahead...you're getting into some dangerous territory. You can travel to his house by entering the follwoing in the 'Commands' tab: (moveLocation player kravitzHouse). Once there, you can look around by querying: (lookAround player ?reply)")))
                   )
                   (doAgentPlan
                     (doForget (ist-Information TheFamilyJewelsMt 
